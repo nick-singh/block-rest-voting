@@ -23,6 +23,20 @@ class VotingModel {
     });
   }
 
+  voteForCandidate(name, data, callback){
+    this.Voting.deployed().then(function(contractInstance) {
+        contractInstance.voteForCandidate(name, data).then(function() {
+          return contractInstance.totalVotesFor.call(name).then(function(v) {
+            let result = {
+              name:name,
+              votes:v.toString()
+            };
+            callback(result);
+          });
+        });
+      });
+  }
+
 
 }
 
