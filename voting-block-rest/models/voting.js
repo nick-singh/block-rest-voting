@@ -24,8 +24,10 @@ class VotingModel {
   }
 
   getBalance(callback){
-    web3.eth.getBalance(contractInstance.address, function(error, result) {
-      callback(web3.fromWei(result.toString()));
+    this.Voting.deployed().then(function(contractInstance) {
+      web3.eth.getBalance(contractInstance.address, function(error, result) {
+        callback(web3.fromWei(result.toString()));
+      });
     });
   }
 
@@ -42,14 +44,6 @@ class VotingModel {
   voterDetails(address, callback){
     this.Voting.deployed().then(function(contractInstance){
       contractInstance.voterDetails.call(address).then(function(v) {
-        callback(v.toString());
-      });
-    });
-  }
-
-  totalVotesFor(name, callback){
-    this.Voting.deployed().then(function(contractInstance){
-      contractInstance.totalVotesFor.call(name).then(function(v){
         callback(v.toString());
       });
     });
